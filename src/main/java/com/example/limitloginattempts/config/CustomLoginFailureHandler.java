@@ -21,7 +21,8 @@ public class CustomLoginFailureHandler extends SimpleUrlAuthenticationFailureHan
 
     @Override
     public void onAuthenticationFailure(HttpServletRequest request, HttpServletResponse response, AuthenticationException exception) throws IOException, ServletException {
-        String username = request.getParameter("email");
+        System.out.println("[Class] CustomLoginFailureHandler - [Method] onAuthenticationFailure()");
+        String username = request.getParameter("username");
         User user = userService.getUserByUsername(username);
 
         if (user != null) {
@@ -39,7 +40,7 @@ public class CustomLoginFailureHandler extends SimpleUrlAuthenticationFailureHan
             }
 
         }
-
+        System.out.println("[ERROR] - " + exception);
         super.setDefaultFailureUrl("/login?error");
         super.onAuthenticationFailure(request, response, exception);
     }

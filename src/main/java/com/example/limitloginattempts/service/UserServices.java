@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
 import java.util.Date;
+import java.util.List;
 
 @Transactional
 @Service
@@ -37,7 +38,7 @@ public class UserServices {
     public boolean unlockWhenTimeExpired(User user) {
         long lockTimeInMillis = user.getLockTime().getTime();
         long currentTimeInMillis = System.currentTimeMillis();
-        if (lockTimeInMillis + LOCK_TIME_DURATION < currentTimeInMillis){
+        if (lockTimeInMillis + LOCK_TIME_DURATION < currentTimeInMillis) {
             user.setAccountNonLocked(true);
             user.setLockTime(null);
             user.setFailedAttempt(0);
@@ -46,6 +47,10 @@ public class UserServices {
         }
         return false;
     }
+
+    public List<User> getUsers() {
+        return userRepository.findAll();
+    };
 
     public User getUserByUsername(String username) {
         return userRepository.findByUsername(username).orElse(null);
